@@ -3,6 +3,7 @@ import path from 'path';
 import dotenv from 'dotenv';
 dotenv.config();
 
+import helmet from 'helmet';
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import { Server } from "socket.io";
@@ -15,14 +16,18 @@ export const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(compression());
+app.use(helmet());
 
 const expressServer = app.listen(process.env.PORT || 3000, () => {
-    console.log(`Server is running on http://localhost:${process.env.PORT || 3000}`);
+    if (process.env.NODE_ENV === 'development') {
+        console.log(`Server is running on http://localhost:${process.env.PORT || 3000}`);
+    }
 });
 
 export const io = new Server(expressServer, {
     cors: {
-        origin: [`http://localhost:${process.env.ADMIN_PORT}`],
+        origin: [process.env.CORS_ORIGIN, `http://localhost:${process.env.PORT}`],
+        allowedHeaders: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
         credentials: true,
     }
 });

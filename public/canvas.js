@@ -1,3 +1,10 @@
+const distance = (x1, y1, x2, y2) => {
+    const xDistance = x2 - x1;
+    const yDistance = y2 - y1;
+    
+    return (Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+}
+
 const draw = () => {
     context.setTransform(1, 0, 0, 1, 0, 0);
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -25,10 +32,12 @@ const draw = () => {
     });
     
     orbs.forEach((orb) => {
-        context.beginPath();
-        context.fillStyle = orb.color;
-        context.arc(orb.x, orb.y, orb.radius, 0, 2 * Math.PI);
-        context.fill();
+        if (distance(player.x, player.y, orb.x, orb.y) < Math.pow(Math.max(canvas.width + 10, canvas.height + 10), 2)) {
+            context.beginPath();
+            context.fillStyle = orb.color;
+            context.arc(orb.x, orb.y, orb.radius, 0, 2 * Math.PI);
+            context.fill();
+        }
     });
     
     requestAnimationFrame(draw);

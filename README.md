@@ -36,6 +36,7 @@ To run it locally:
    NODE_ENV=development
    ADMIN_PORT=9002
    ADMIN_PASSWORD=testtest
+   CORS_ORIGIN=localhost:9001
    ```
     **NOTE:** The `ADMIN_PORT` and `ADMIN_PASSWORD` variables are only required if you want to use the admin panel. It's enabled only in the development mode, which is controlled by `NODE_ENV` variable.
 
